@@ -49,35 +49,34 @@ Sistem ini mengelola akun admin untuk domain dstmobil.com dengan fitur keamanan 
 - Data contoh dengan password "admin123" (sudah di-hash)
 - Komentar untuk setiap field
 
-### 5. `config_database_example.php`
-**Fungsi:** Contoh konfigurasi database dan fungsi helper
+### 5. `sis25.php` (sudah ada)
+**Fungsi:** Konfigurasi database dan sistem utama
 **Fitur:**
-- Koneksi PDO dengan error handling
-- Fungsi hash dan verifikasi password
-- Fungsi format nomor WhatsApp
-- Session management functions
-- Input sanitization
+- Koneksi MySQLi ke database dste9565_headoffice
+- Konfigurasi timezone Asia/Jakarta
+- Session management
+- API endpoints untuk cabang Jakarta dan Tangerang
 
 ## Cara Instalasi
 
 ### 1. Setup Database
 ```sql
--- Jalankan script SQL
+-- Jalankan script SQL pada database dste9565_headoffice
 source create_admin_table.sql;
 ```
 
 ### 2. Konfigurasi Database
-1. Salin `config_database_example.php` menjadi `sis25.php`
-2. Sesuaikan konfigurasi database:
+File `sis25.php` sudah dikonfigurasi dengan:
 ```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'nama_database_anda');
-define('DB_USER', 'username_database');
-define('DB_PASS', 'password_database');
+$servername = "localhost";
+$username = "dste9565_head_usr";
+$password = "Digdaya@2025";
+$dbname = "dste9565_headoffice";
+$konsis25 = new mysqli($servername, $username, $password, $dbname);
 ```
 
 ### 3. Upload File
-Upload semua file PHP ke server web Anda.
+Upload semua file PHP ke server web dstmobil.com.
 
 ## Cara Penggunaan
 
@@ -88,8 +87,10 @@ Upload semua file PHP ke server web Anda.
 4. Klik "Masuk"
 
 **Akun Default:**
-- WA: 628123456789
-- Password: admin123
+- WA: 628123456789 (Admin Jakarta)
+- WA: 628987654321 (Admin Tangerang)  
+- WA: 628111222333 (Super Admin Head Office)
+- Password: admin123 (untuk semua akun)
 
 ### Mengelola Akun
 1. Setelah login, akses `daftar_akun.php`

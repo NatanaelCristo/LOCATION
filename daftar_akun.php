@@ -6,28 +6,22 @@
     // Inisialisasi variabel message
     $message = '';
     
-    // Koneksi database
+    // Query untuk mengambil data admin menggunakan MySQLi
+    $admins = [];
     try {
-        // Asumsikan koneksi database sudah ada di sis25.php
-        // Jika tidak, uncomment baris berikut dan sesuaikan dengan konfigurasi database Anda
-        /*
-        $host = 'localhost';
-        $dbname = 'dstmobil_db';
-        $username = 'your_username';
-        $password = 'your_password';
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        */
-        
-        // Query untuk mengambil data admin
         $query = "SELECT wa, nama, cabang FROM admin ORDER BY nama";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-        $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $konsis25->query($query);
         
-    } catch(PDOException $e) {
+        if ($result) {
+            while($row = $result->fetch_assoc()) {
+                $admins[] = $row;
+            }
+        } else {
+            $message = '<div class="alert alert-danger">Error: ' . $konsis25->error . '</div>';
+        }
+        
+    } catch(Exception $e) {
         $message = '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
-        $admins = [];
     }
 ?>
 

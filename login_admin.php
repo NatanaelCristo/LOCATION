@@ -4,9 +4,27 @@ require 'sis25.php';
 $message = '';
 
 // Jika sudah login, redirect ke dashboard
-if (isLoggedIn()) {
+if (isset($_SESSION['admin_wa']) && !empty($_SESSION['admin_wa'])) {
     header("Location: daftar_akun.php");
     exit();
+}
+
+// Fungsi untuk format nomor WhatsApp
+function formatWhatsApp($wa) {
+    // Hapus semua karakter non-digit
+    $wa = preg_replace('/[^0-9]/', '', $wa);
+    
+    // Jika dimulai dengan 08, ganti dengan 628
+    if (substr($wa, 0, 2) == '08') {
+        $wa = '628' . substr($wa, 2);
+    }
+    
+    // Jika dimulai dengan 8, tambahkan 62 di depan
+    if (substr($wa, 0, 1) == '8') {
+        $wa = '62' . $wa;
+    }
+    
+    return $wa;
 }
 
 // Proses login
@@ -20,11 +38,13 @@ if ($_POST) {
         try {
             // Cari admin berdasarkan nomor WA
             $query = "SELECT wa, nama, password, cabang FROM admin WHERE wa = ?";
-            $stmt = $pdo->prepare($query);
-            $stmt->execute([$wa]);
-            $admin = $stmt->fetch();
+            $stmt = $konsis25->prepare($query);
+            $stmt->bind_param("s", $wa);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $admin = $result->fetch_assoc();
             
-            if ($admin && verifyPassword($password, $admin['password'])) {
+            if ($admin && password_verify($password, $admin['password'])) {
                 // Login berhasil
                 $_SESSION['admin_wa'] = $admin['wa'];
                 $_SESSION['admin_nama'] = $admin['nama'];
@@ -32,15 +52,21 @@ if ($_POST) {
                 
                 // Update last login (opsional)
                 $updateQuery = "UPDATE admin SET updated_at = CURRENT_TIMESTAMP WHERE wa = ?";
-                $updateStmt = $pdo->prepare($updateQuery);
-                $updateStmt->execute([$admin['wa']]);
+                $updateStmt = $konsis25->prepare($updateQuery);
+                $updateStmt->bind_param("s", $admin['wa']);
+                $updateStmt->execute();
+                $updateStmt->close();
                 
+                $stmt->close();
                 header("Location: daftar_akun.php");
                 exit();
             } else {
                 $message = '<div class="alert alert-danger">Nomor WA atau password salah!</div>';
             }
-        } catch(PDOException $e) {
+            
+            $stmt->close();
+            
+        } catch(Exception $e) {
             $message = '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
         }
     }

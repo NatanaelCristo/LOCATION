@@ -19,10 +19,12 @@
             try {
                 // Cek apakah WA sudah ada
                 $checkQuery = "SELECT wa FROM admin WHERE wa = ?";
-                $checkStmt = $pdo->prepare($checkQuery);
-                $checkStmt->execute([$wa]);
+                $checkStmt = $konsis25->prepare($checkQuery);
+                $checkStmt->bind_param("s", $wa);
+                $checkStmt->execute();
+                $checkResult = $checkStmt->get_result();
                 
-                if ($checkStmt->rowCount() > 0) {
+                if ($checkResult->num_rows > 0) {
                     $message = '<div class="alert alert-danger">Nomor WA sudah terdaftar!</div>';
                 } else {
                     // Hash password menggunakan bcrypt
@@ -30,19 +32,29 @@
                     
                     // Insert data ke database
                     $insertQuery = "INSERT INTO admin (wa, nama, password, cabang) VALUES (?, ?, ?, ?)";
-                    $insertStmt = $pdo->prepare($insertQuery);
-                    $insertStmt->execute([$wa, $nama, $hashedPassword, $cabang]);
+                    $insertStmt = $konsis25->prepare($insertQuery);
+                    $insertStmt->bind_param("ssss", $wa, $nama, $hashedPassword, $cabang);
                     
-                    $message = '<div class="alert alert-success">Akun admin berhasil ditambahkan!</div>';
-                    
-                    // Redirect setelah 2 detik
-                    echo "<script>
-                        setTimeout(function() {
-                            window.location.href = 'daftar_akun.php';
-                        }, 2000);
-                    </script>";
+                    if ($insertStmt->execute()) {
+                        $message = '<div class="alert alert-success">Akun admin berhasil ditambahkan!</div>';
+                        
+                        // Redirect setelah 2 detik
+                        echo "<script>
+                            setTimeout(function() {
+                                window.location.href = 'daftar_akun.php';
+                            }, 2000);
+                        </script>";
+                    } else {
+                        $message = '<div class="alert alert-danger">Error: ' . $konsis25->error . '</div>';
+                    }
                 }
-            } catch(PDOException $e) {
+                
+                $checkStmt->close();
+                if (isset($insertStmt)) {
+                    $insertStmt->close();
+                }
+                
+            } catch(Exception $e) {
                 $message = '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
             }
         }
@@ -112,14 +124,9 @@
                                 <label for="cabang" class="form-label">Cabang *</label>
                                 <select class="form-select" id="cabang" name="cabang" required>
                                     <option value="">Pilih Cabang</option>
+                                    <option value="Head Office" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Head Office') ? 'selected' : ''; ?>>Head Office</option>
                                     <option value="Jakarta" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Jakarta') ? 'selected' : ''; ?>>Jakarta</option>
-                                    <option value="Surabaya" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Surabaya') ? 'selected' : ''; ?>>Surabaya</option>
-                                    <option value="Bandung" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Bandung') ? 'selected' : ''; ?>>Bandung</option>
-                                    <option value="Medan" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Medan') ? 'selected' : ''; ?>>Medan</option>
-                                    <option value="Semarang" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Semarang') ? 'selected' : ''; ?>>Semarang</option>
-                                    <option value="Makassar" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Makassar') ? 'selected' : ''; ?>>Makassar</option>
-                                    <option value="Palembang" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Palembang') ? 'selected' : ''; ?>>Palembang</option>
-                                    <option value="Yogyakarta" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Yogyakarta') ? 'selected' : ''; ?>>Yogyakarta</option>
+                                    <option value="Tangerang" <?php echo (isset($_POST['cabang']) && $_POST['cabang'] == 'Tangerang') ? 'selected' : ''; ?>>Tangerang</option>
                                 </select>
                             </div>
                             

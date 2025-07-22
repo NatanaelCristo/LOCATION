@@ -1,5 +1,7 @@
 -- Script untuk membuat tabel admin
--- Database: dstmobil.com
+-- Database: dste9565_headoffice
+
+USE dste9565_headoffice;
 
 CREATE TABLE IF NOT EXISTS `admin` (
   `wa` VARCHAR(15) NOT NULL PRIMARY KEY COMMENT 'Nomor WhatsApp sebagai primary key',
@@ -17,8 +19,8 @@ CREATE INDEX idx_admin_nama ON admin(nama);
 -- Contoh data admin (password: "admin123" yang sudah di-hash dengan bcrypt)
 INSERT INTO `admin` (`wa`, `nama`, `password`, `cabang`) VALUES
 ('628123456789', 'Admin Jakarta', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Jakarta'),
-('628987654321', 'Admin Surabaya', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Surabaya'),
-('628111222333', 'Admin Bandung', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Bandung');
+('628987654321', 'Admin Tangerang', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Tangerang'),
+('628111222333', 'Super Admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Head Office');
 
 -- Perintah untuk melihat struktur tabel
 -- DESCRIBE admin;
