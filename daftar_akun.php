@@ -48,18 +48,18 @@
                 <br>
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-12">
-                        <!--Tambahkan Tombol Tambah berwanra hijau-->
-                           <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="d-flex align-items-center">
-                                    <input type="text" id="cariData" class="form-control me-2" placeholder="Cari berdasarkan nama, WA, atau cabang..." style="width: 300px;">
-                                    <button type="button" class="btn btn-info me-2" id="refreshData">
-                                        <i class="bi bi-arrow-clockwise"></i> Refresh
-                                    </button>
-                                </div>
-                                <a href="daftar_akun_tambah" class="btn btn-success">
-                                    <i class="fa-solid fa-plus me-1" style="color:white;"></i> Tambah
-                                </a>
+                        <!--Tambahkan Tombol Tambah dan Pencarian-->
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center">
+                                <input type="text" id="cariData" class="form-control me-2" placeholder="Cari berdasarkan nama, WA, atau cabang..." style="width: 300px;">
+                                <button type="button" class="btn btn-info me-2" id="refreshData">
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                                </button>
                             </div>
+                            <a href="daftar_akun_tambah" class="btn btn-success">
+                                <i class="fa-solid fa-plus me-1" style="color:white;"></i> Tambah
+                            </a>
+                        </div>
                             
                         <!-- Baris control atas -->
                         <div class="d-flex align-items-center justify-content-between mb-2">
@@ -98,7 +98,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="data_tabel">
-                                   <!-- Data akan dimuat via JavaScript -->
+                                    <!-- Data akan dimuat via JavaScript -->
                                 </tbody>
                             </table>
                        
@@ -287,7 +287,7 @@
             }
         });
 
-        // Fungsi pencarian
+        // Fungsi pencarian real-time
         $('#cariData').on('input', function () {
             const query = $(this).val().toLowerCase();
             
