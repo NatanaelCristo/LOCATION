@@ -20,8 +20,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-tools me-2"></i>Service</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="daftar_servis" class="dropdown-item">Laporan Servis</a>
-                            <!-- Link Deteksi Wajah disembunyikan -->
-                            <!-- <a href="https://dstmobil.com/FACE/index.php?cabang=tangerang" target="_blank" class="dropdown-item">Deteksi Wajah</a> -->
+                            <a href="https://dstmobil.com/FACE/" target="_blank" class="dropdown-item">Deteksi Wajah</a>
                             <a href="catat_servis" target="_blank" class="dropdown-item">Catat Servis</a>
                             <a href="daftar_servis" target="_blank" class="dropdown-item">Daftar Servis</a>
                             <a href="element.html" class="dropdown-item">Other Elements</a>

@@ -59,8 +59,7 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="update_teknisi" class="dropdown-item">Update Jumlah Kapasitas</a>
                       
-                            <!-- Link Deteksi Wajah disembunyikan -->
-                            <!-- <a href="https://dstmobil.com/FACE/index?cabang=jakarta" target="_blank" class="dropdown-item">Deteksi Wajah</a> -->
+                            <a href="https://dstmobil.com/FACE/" target="_blank" class="dropdown-item">Deteksi Wajah</a>
                             <a href="antrian_1" class="dropdown-item">Antrian</a>
                         </div>
                     </div>
