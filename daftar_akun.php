@@ -1,6 +1,7 @@
 <?php
     require 'sis25.php';
     $_SESSION['menu'] = "admin";
+    $token = TOKEN;
     
     $message = "";
     
@@ -52,81 +53,63 @@
             
             <div class="row g-4">
                 <div class="col-sm-12 col-xl-12">
-                    <!--Tambahkan Tombol Tambah berwarna hijau-->
-                    <div class="text-sm-end text-center">
-                        <a href="daftar_akun_tambah.php" class="btn btn-success">
-                            <i class="fa-solid fa-plus me-1" style="color:white;"></i> Tambah Admin
-                        </a>
-                    </div>
+                                            <!--Tambahkan Tombol Tambah berwarna hijau-->
+                           <div class="text-sm-end text-center">
+                                <a href="daftar_akun_tambah" class="btn btn-success">
+                                    <i class="fa-solid fa-plus me-1" style="color:white;"></i> Tambah
+                                </a>
+                            </div>
                     
-                    <!-- Baris control atas -->
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <!-- Kiri: label + select -->
-                        <div class="d-flex align-items-center">
-                            <label for="itemsPerPage" class="me-2 mb-0">Tampilkan:</label>
-                            <select id="itemsPerPage" class="form-select" style="width:auto;">
-                                <option value="5">5</option>
-                                <option value="10" selected>10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
+                                            <!-- Baris control atas -->
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <!-- Kiri: label + select -->
+                            <div class="d-flex align-items-center">
+                                <label for="itemsPerPage" class="me-2 mb-0">Tampilkan:</label>
+                                <select id="itemsPerPage" class="form-select" style="width:auto;">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
                         </div>
-                        
-                        <!-- Kanan: Search -->
-                        <div class="d-flex align-items-center">
-                            <label for="searchInput" class="me-2 mb-0">Cari:</label>
-                            <input type="text" id="searchInput" class="form-control" placeholder="Cari admin..." style="width:200px;">
-                        </div>
-                    </div>
                     
                     <div class="bg-white h-100 p-4" style="width: 100%; border: 2px solid #0804b0; box-shadow: 0 6px 6px rgba(131,131,131,0.6); border-radius: 10px;">
 
-                        <!-- Display Message -->
-                        <?php echo $message; ?>
-                
-                        <table class="table table-striped" id="adminTable">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>WA</th>
-                                    <th>Nama</th>
-                                    <th>Cabang</th>
-                                    <th>Tanggal Dibuat</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="data_tabel">
-                                <?php if ($result && $result->num_rows > 0): ?>
-                                    <?php $no = 1; ?>
-                                    <?php while($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td><?php echo htmlspecialchars($row['wa']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['nama']); ?></td>
-                                            <td>
-                                                <span class="badge bg-primary"><?php echo htmlspecialchars($row['cabang']); ?></span>
-                                            </td>
-                                            <td><?php echo date('d/m/Y H:i', strtotime($row['created_at'])); ?></td>
-                                            <td>
-                                                <a href="daftar_akun_edit.php?wa=<?php echo urlencode($row['wa']); ?>" 
-                                                   class="btn btn-sm btn-warning me-1" title="Edit">
-                                                    <i class="fa-solid fa-edit"></i>
-                                                </a>
-                                                <button onclick="confirmDelete('<?php echo htmlspecialchars($row['wa']); ?>', '<?php echo htmlspecialchars($row['nama']); ?>')" 
-                                                        class="btn btn-sm btn-danger" title="Hapus">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
+                                                    <!-- Display Message -->
+                            <?php echo $message; ?>
+                    
+                                <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td colspan="6" class="text-center">Belum ada data admin</td>
+                                        <th>No.</th>
+                                        <th>WA</th>
+                                        <th>Nama</th>
+                                        <th>Cabang</th>
+                                        
                                     </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody id="data_tabel">
+                                    <?php if ($result && $result->num_rows > 0): ?>
+                                        <?php $no = 1; ?>
+                                        <?php while($row = $result->fetch_assoc()): ?>
+                                            <tr>
+                                                <td><?php echo $no++; ?></td>
+                                                <td><?php echo htmlspecialchars($row['wa']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['nama']); ?></td>
+                                                <td>
+                                                    <span class="badge bg-primary"><?php echo htmlspecialchars($row['cabang']); ?></span>
+                                                </td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center">Belum ada data admin</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
                
                     </div>
                 </div>
@@ -147,43 +130,6 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <?php require "script.php"?>
-    
-    <script>
-        function confirmDelete(wa, nama) {
-            if (confirm(`Apakah Anda yakin ingin menghapus admin "${nama}" dengan WA ${wa}?`)) {
-                window.location.href = `daftar_akun.php?delete=${encodeURIComponent(wa)}`;
-            }
-        }
-        
-        // Simple search functionality
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            const searchTerm = this.value.toLowerCase();
-            const tableRows = document.querySelectorAll('#data_tabel tr');
-            
-            tableRows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-        
-        // Simple pagination functionality
-        document.getElementById('itemsPerPage').addEventListener('change', function() {
-            const itemsPerPage = parseInt(this.value);
-            const tableRows = document.querySelectorAll('#data_tabel tr');
-            
-            tableRows.forEach((row, index) => {
-                if (index < itemsPerPage) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>
