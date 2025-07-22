@@ -13,7 +13,11 @@ try {
     
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
+            $data[] = [
+                'wa' => htmlspecialchars($row['wa']),
+                'nama' => htmlspecialchars($row['nama']),
+                'cabang' => htmlspecialchars($row['cabang'])
+            ];
         }
     }
     
@@ -23,5 +27,7 @@ try {
     echo json_encode(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
 }
 
-$konsis25->close();
+if (isset($konsis25)) {
+    $konsis25->close();
+}
 ?>
